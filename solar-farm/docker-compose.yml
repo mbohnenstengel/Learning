@@ -1,0 +1,31 @@
+version: "3.7"
+services:
+    solar-farm:
+        image: solar-farm-node
+        build:
+            context: .
+        environment:
+            DEV_ENV: production
+            POSTGRES_USER: solar_farm_app
+            POSTGRES_PASSWORD: password
+            PORT: 8080
+        ports: 
+            - "8080:8080"
+        depends_on:
+            - db 
+        command: npm run db-migrate-seed
+        # command: ['dotenv' ,'sequelize', 'db:migrate']
+        # command: [ 'dotenv', 'sequelize', 'db:seed:all']
+        # command: npm start
+        command: ["./wait-for-it.sh", "db:5432", "localhost", "node", "app.js"]
+    db:
+        image: postgres
+        environment:
+            # POSTGRES_USER: solar_farm_app
+            # POSTGRES_PASSWORD: password
+            # POSTGRES_DB: solar_farm
+            POSTGRES_HOST_AUTH_METHOD: trust    
+        ports:
+            - '5432:5432'
+            
+            
