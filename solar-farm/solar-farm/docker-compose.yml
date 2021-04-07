@@ -5,7 +5,7 @@ services:
         build:
             context: .
         environment:
-            #can't get production to work at all says error with sequelize
+            #can't get production env to work at all says error with sequelize
             DEV_ENV: development
             POSTGRES_USER: solar_farm_app
             POSTGRES_PASSWORD: password
@@ -14,8 +14,10 @@ services:
             - "8080:8080"
         depends_on:
             - db 
-        #There is something wrong with this script. Probably entering the wrong commands
+        #There is something wrong with this script. Probably entering the wrong variables
+        
         command: ["./wait-for-it.sh", "db", "npm run db-migrate-seed"]
+        #this doesn't belong but will execute in dev enviroment then the container willshut off 
         command: npm run db-migrate-seed
     db:
         image: postgres
