@@ -17,8 +17,10 @@ services:
         #There is something wrong with this script. Probably entering the wrong variables
         
         command: ["./wait-for-it.sh", "db", "npm run db-migrate-seed"]
-        #this doesn't belong but will execute in dev enviroment then the container willshut off 
+        #this doesn't belong but will execute in dev enviroment then the container willshut off without following command
         command: npm run db-migrate-seed
+        #this should be triggered automatically (I assume)
+        command: npm start
     db:
         image: postgres
         environment:
